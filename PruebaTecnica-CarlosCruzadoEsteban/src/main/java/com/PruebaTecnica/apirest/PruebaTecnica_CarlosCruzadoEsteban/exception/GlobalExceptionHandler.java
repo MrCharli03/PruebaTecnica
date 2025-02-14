@@ -21,5 +21,12 @@ public class GlobalExceptionHandler {
         SensorErrorResponse response = new SensorErrorResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+    
+    @ExceptionHandler(SensorNoEncontradoException.class)
+    public ResponseEntity<SensorErrorResponse> handleSensorNoEncontradoException(SensorNoEncontradoException e) {
+        SensorErrorResponse response = new SensorErrorResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+    
 }
 

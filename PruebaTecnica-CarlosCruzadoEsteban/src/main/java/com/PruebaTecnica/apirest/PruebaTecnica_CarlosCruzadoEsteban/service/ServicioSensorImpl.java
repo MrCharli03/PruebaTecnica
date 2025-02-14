@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageImpl;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.PruebaTecnica.apirest.PruebaTecnica_CarlosCruzadoEsteban.exception.SensorDuplicadoException;
+import com.PruebaTecnica.apirest.PruebaTecnica_CarlosCruzadoEsteban.exception.SensorNoEncontradoException;
 import com.PruebaTecnica.apirest.PruebaTecnica_CarlosCruzadoEsteban.modelo.Sensor;
 import com.PruebaTecnica.apirest.PruebaTecnica_CarlosCruzadoEsteban.repository.SensorRepository;
 import com.PruebaTecnica.apirest.PruebaTecnica_CarlosCruzadoEsteban.dto.SensorDTO;
@@ -47,9 +46,13 @@ public class ServicioSensorImpl implements ServicioSensor{
 
 	@Override
 	public void borrarSensor(Long id) {
-		if (id == null)
-			throw new IllegalArgumentException("id del sensor: no debe ser nulo ni vacio");
-		sensorRepository.deleteById(id);
+	    if (id == null)
+	        throw new IllegalArgumentException("id del sensor: no debe ser nulo ni vacio");
+	    
+	    Sensor sensor = sensorRepository.findById(id)
+	        .orElseThrow(() -> new SensorNoEncontradoException("Sensor no encontrado con ID: " + id));
+	    
+	    sensorRepository.delete(sensor);
 	}
 	
 	@Override
