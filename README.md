@@ -1,4 +1,3 @@
-```markdown:README.md
 # API REST para Gestión de Sensores
 
 API Spring Boot para gestión de sensores y mediciones con base de datos H2.
